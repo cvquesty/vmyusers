@@ -1,6 +1,6 @@
 # Defined Type to create a user under MySQL
 #
-class vmyusers::create::user (
+define vmyusers::create::user (
 
   $dbauth,
   $dbauthpw,
