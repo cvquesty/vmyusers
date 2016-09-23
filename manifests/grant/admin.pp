@@ -1,6 +1,6 @@
 # Defined Type to create Admin Uer
 #
-define vmyusers::manifests::grant (
+define vmyusers::grant::admin (
 
   $dbauth,
   $dbauthpw,
