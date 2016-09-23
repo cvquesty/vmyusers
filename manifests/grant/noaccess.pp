@@ -1,4 +1,4 @@
-# Defined Type to create Admin Uer
+# Defined Type to create No-Access User
 #
 define vmyusers::grant::noaccess (
 
