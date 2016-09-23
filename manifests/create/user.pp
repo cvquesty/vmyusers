@@ -11,7 +11,7 @@ define vmyusers::create::user (
 ) {
 
   exec { 'create_user':
-    command => "/usr/bin/mysql --user=${dbauth} --password=${dbauthpw} -e \"CREATE USER ${user}@${location} ON ${database}.*\"",
+    command => "/usr/bin/mysql --user=${dbauth} --password=${dbauthpw} -e \"CREATE USER ${user}@${location}\"",
   }
 
 }
