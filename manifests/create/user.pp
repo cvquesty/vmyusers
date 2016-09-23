@@ -6,11 +6,12 @@ define vmyusers::create::user (
   $dbauthpw,
   $user,
   $database,
+  $location,
 
 ) {
 
   exec { 'create_user':
-    command => "/bin/mysqladmin -u ${dbauth} -p ${dbauthpw} -e \"CREATE USER ${user} ON ${database}.*\"",
+    command => "/usr/bin/mysql --user=${dbauth} --password=${dbauthpw} -e \"CREATE USER ${user}@${location} ON ${database}.*\"",
   }
 
 }
