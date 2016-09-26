@@ -21,6 +21,7 @@ define vmyusers::delete::user (
 ) {
 
   exec { 'delete_user':
+    onlyif  => "/usr/bin/mysqladmin -u${user} -p\'${password}\' status",
     command => "/usr/bin/mysql --user=${dbauth} --password=${dbauthpw} -e \"DELETE FROM mysql.user WHERE User =\'${user}\';FLUSH PRIVILEGES;\"",
   }
 
