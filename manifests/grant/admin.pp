@@ -12,7 +12,7 @@
 #  }
 
 # This routine runs a simple MySQL command line to add a user and give it
-# general access.  This "location" parameter can be 'localhost' or '%',
+# admin access.  This "location" parameter can be 'localhost' or '%',
 # whichever is needed for your particular purposes.
 define vmyusers::grant::admin (
 
