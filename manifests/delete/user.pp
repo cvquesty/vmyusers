@@ -20,12 +20,7 @@ define vmyusers::delete::user (
 
 ) {
 
-$isitthere = "/usr/bin/mysql -B --user=root --password=rootpw --disable-column-names -e \"SELECT user FROM mysql.user WHERE User=\'${user}\' |grep ${user} \""
-
-if $isitthere == $user {
-    exec { 'delete_user':
-#      unless  => "/usr/bin/mysql -B --user=root --password=rootpw --disable-column-names -e \"SELECT user FROM mysql.user WHERE User=\'${user}\' |grep ${user} \"",
-      command => "/usr/bin/mysql --user=${dbauth} --password=${dbauthpw} -e \"DELETE FROM mysql.user WHERE User =\'${user}\';flush privileges;\"",
-    }
+  exec { 'delete_user':
+    command => "/usr/bin/mysql --user=${dbauth} --password=${dbauthpw} -e \"DELETE FROM mysql.user WHERE User =\'${user}\';flush privileges;\"",
   }
 }
