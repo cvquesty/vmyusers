@@ -26,10 +26,14 @@ define vmyusers::grant::noaccess (
 
 ) {
 
+  exec { 'flush_for_noaccess':
+    command => "/usr/bin/mysql --user=${dbauth} --password=${dbauthpw} -e \"REVOKE ALL PRIVILEGES,GRANT OPTION FROM \'${user}  \'@\'${location}\'; FLUSH PRIVILEGES;",
+  }
+
   exec { 'create_noaccess_user':
     onlyif  => "/usr/bin/mysqladmin -u${user} -p\'${password}\' status",
-    command => [  "/usr/bin/mysql --user=${dbauth} --password=${dbauthpw} -e \"REVOKE ALL PRIVILEGES,GRANT OPTION FROM \'${user}  \'@\'${location}\'; FLUSH PRIVILEGES;",
-                  "/usr/bin/mysql --user=${dbauth} --password=${dbauthpw} -e \"GRANT USAGE ON ${database}.* TO \'${user}\'@\'${location}\'; flush privileges;\"",],
+    command => "/usr/bin/mysql --user=${dbauth} --password=${dbauthpw} -e \"GRANT USAGE ON ${database}.* TO \'${user}\'@\'${location}\'; flush privileges;\"",
+    require => Exec[ 'flush_for_noaccess' ],
   }
 
 }
