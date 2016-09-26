@@ -28,7 +28,8 @@ define vmyusers::grant::readwrite (
 
   exec { 'create_readwrite_user':
     onlyif  => "/usr/bin/mysqladmin -u${user} -p\'${password}\' status",
-    command => "/usr/bin/mysql --user=${dbauth} --password=${dbauthpw} -e \"GRANT INSERT,SELECT,UPDATE ON ${database}.* TO \'${user}\'@\'${location}\' IDENTIFIED BY \'${password}\'; flush privileges;\"",
+    command => [  "/usr/bin/mysql --user=${dbauth} --password=${dbauthpw} -e \"REVOKE ALL PRIVILEGES,GRANT OPTION FROM \'${user}  \'@\'${location}\'; FLUSH PRIVILEGES;",
+                  "/usr/bin/mysql --user=${dbauth} --password=${dbauthpw} -e \"GRANT INSERT,SELECT,UPDATE ON ${database}.* TO \'${user}\'@\'${location}\' IDENTIFIED BY \'${password}\'; flush privileges;\"",],
   }
 
 }
