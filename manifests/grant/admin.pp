@@ -26,6 +26,7 @@ define vmyusers::grant::admin (
 ) {
 
   exec { 'flush_for_admin':
+    onlyif  => "/usr/bin/mysqladmin -u${user} -p\'${password}\' status",
     command => "/usr/bin/mysql --user=${dbauth} --password=${dbauthpw} -e \"REVOKE ALL PRIVILEGES,GRANT OPTION FROM \'${user}  \'@\'${location}\'; FLUSH PRIVILEGES;",
   }
 
