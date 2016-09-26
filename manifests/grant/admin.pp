@@ -25,10 +25,14 @@ define vmyusers::grant::admin (
 
 ) {
 
+  exec { 'flush_for_admin':
+    command => "/usr/bin/mysql --user=${dbauth} --password=${dbauthpw} -e \"REVOKE ALL PRIVILEGES,GRANT OPTION FROM \'${user}  \'@\'${location}\'; FLUSH PRIVILEGES;",
+  }
+
   exec { 'create_admin_user':
     onlyif  => "/usr/bin/mysqladmin -u${user} -p\'${password}\' status",
-    command => [  "/usr/bin/mysql --user=${dbauth} --password=${dbauthpw} -e \"REVOKE ALL PRIVILEGES,GRANT OPTION FROM \'${user}\'@\'${location}\'; FLUSH PRIVILEGES;",
-                  "/usr/bin/mysql --user=${dbauth} --password=${dbauthpw} -e \"GRANT ALL ON ${database}.* TO \'${user}\'@\'${location}\' IDENTIFIED BY \'${password}\'; FLUSH PRIVILEGES;\"", ]
+    command => "/usr/bin/mysql --user=${dbauth} --password=${dbauthpw} -e \"GRANT ALL ON ${database}.* TO \'${user}\'@\'${location}\' IDENTIFIED BY \'${password}\'; FLUSH PRIVILEGES;\"",
+    require => Exec[ 'flush_for_admin' ],
   }
 
 }
