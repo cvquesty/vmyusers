@@ -21,6 +21,7 @@ define vmyusers::delete::user (
 ) {
 
   exec { 'delete_user':
-    command => "/usr/bin/mysql --user=${dbauth} --password=${dbauthpw} -e \"DELETE FROM mysql.user WHERE User =\'${user}\';flush privileges;\"",
+    command   => "/usr/bin/mysql --user=${dbauth} --password=${dbauthpw} -e \"DELETE FROM mysql.user WHERE User =\'${user}\';flush privileges;\"",
+    logoutput => false,
   }
 }

@@ -27,14 +27,16 @@ define vmyusers::grant::noaccess (
 ) {
 
   exec { 'flush_for_noaccess':
-    onlyif  => "/usr/bin/mysqladmin -u${user} -p\'${password}\' status",
-    command => "/usr/bin/mysql --user=${dbauth} --password=${dbauthpw} -e \"REVOKE ALL PRIVILEGES,GRANT OPTION FROM \'${user}\'@\'${location}\'; FLUSH PRIVILEGES;\"",
+    onlyif    => "/usr/bin/mysqladmin -u${user} -p\'${password}\' status",
+    command   => "/usr/bin/mysql --user=${dbauth} --password=${dbauthpw} -e \"REVOKE ALL PRIVILEGES,GRANT OPTION FROM \'${user}\'@\'${location}\'; FLUSH PRIVILEGES;\"",
+    logoutput => false,
   }
 
   exec { 'create_noaccess_user':
-    onlyif  => "/usr/bin/mysqladmin -u${user} -p\'${password}\' status",
-    command => "/usr/bin/mysql --user=${dbauth} --password=${dbauthpw} -e \"GRANT USAGE ON ${database}.* TO \'${user}\'@\'${location}\'; flush privileges;\"",
-    require => Exec[ 'flush_for_noaccess' ],
+    onlyif    => "/usr/bin/mysqladmin -u${user} -p\'${password}\' status",
+    command   => "/usr/bin/mysql --user=${dbauth} --password=${dbauthpw} -e \"GRANT USAGE ON ${database}.* TO \'${user}\'@\'${location}\'; flush privileges;\"",
+    logoutput => false,
+    require   => Exec[ 'flush_for_noaccess' ],
   }
 
 }

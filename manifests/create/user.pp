@@ -25,8 +25,9 @@ define vmyusers::create::user (
 ) {
 
   exec { 'create_user':
-    unless  => "/usr/bin/mysqladmin -u${user} -p\'${password}\' status",
-    command => "/usr/bin/mysql --user=${dbauth} --password=${dbauthpw} -e \"CREATE USER ${user}@${location} IDENTIFIED BY \'${password}\'\"",
+    unless    => "/usr/bin/mysqladmin -u${user} -p\'${password}\' status",
+    command   => "/usr/bin/mysql --user=${dbauth} --password=${dbauthpw} -e \"CREATE USER ${user}@${location} IDENTIFIED BY \'${password}\'\"",
+    logoutput => false,
   }
 
 }
